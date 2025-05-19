@@ -17,3 +17,16 @@ Considerations:
     * Project doesn't seem complex enough to warrant a more intentional decision on framework and language.
 * Database might be the most interesting decision given we'd have to store a large amount of unstructured data. I suspect something like MongoDB would be a pretty good choice given it's flexibility and that my backend server is in TS, so JSON becomes easy to use too.
     * Alternatively, I could consider using something like an S3 bucket and store the entire log file instead.
+
+
+TODO:
+* Write a section for the page for showing all previously submitted logs.
+* Hook up submitted logs to Open AI for parsing.
+* Return parsed logs to user.
+* Work on stretch goals like:
+    * Retry failed parsing.
+    * Search for logs out of previously submitted logs.
+    * Classify log severity.
+    * Containerizing backend.
+    * Deploying the backend and providing a hosted API.
+    * Test framework and tests. Might be pretty straight forward for now / light on testing depending on how time permits.
