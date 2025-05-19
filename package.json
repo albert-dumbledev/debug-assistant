@@ -1,0 +1,22 @@
+{
+  "name": "debug-assistant",
+  "version": "1.0.0",
+  "description": "Web app that helps debuggers untangle confusing error messages and stack traces",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:server": "npm run start --workspace=server",
+    "start:client": "npm run start --workspace=client",
+    "build": "npm run build --workspaces",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev --workspace=server",
+    "dev:client": "npm run dev --workspace=client"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
