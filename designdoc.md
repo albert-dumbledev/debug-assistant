@@ -30,3 +30,6 @@ TODO:
     * Containerizing backend.
     * Deploying the backend and providing a hosted API.
     * Test framework and tests. Might be pretty straight forward for now / light on testing depending on how time permits.
+
+Time log:
+Day 1 - 2hrs.
