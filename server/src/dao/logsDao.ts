@@ -9,6 +9,7 @@ export class LogsDao {
   }
 
   async saveLog(content: string, analysis?: LogAnalysis): Promise<string> {
+    // did some research - this seems to be a safe way to insert info from user input. As long as the user input is not a key, operator or raw query object, the MongoDB driver can handle it.
     const result = await this.collection.insertOne({
       content,
       timestamp: new Date(),
