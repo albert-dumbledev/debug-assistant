@@ -1,51 +1,41 @@
-import { MongoClient, ObjectId } from 'mongodb';
-
-export interface LogEntry {
-  _id?: ObjectId;
-  content: string;
-  timestamp: Date;
-}
-
-export interface PaginationOptions {
-  limit?: number;
-  sort?: 'asc' | 'desc';
-}
+import { MongoClient, Collection, ObjectId } from 'mongodb';
+import { LogEntry, LogAnalysis, PaginationOptions } from '@common/types/logAnalysis';
 
 export class LogsDao {
-  private client: MongoClient;
-  private dbName = 'debugassistant';
-  private collectionName = 'logs';
+  private collection: Collection<LogEntry>;
 
   constructor(client: MongoClient) {
-    this.client = client;
+    this.collection = client.db('debug-assistant').collection<LogEntry>('logs');
   }
 
-  async saveLog(content: string): Promise<ObjectId> {
-    const db = this.client.db(this.dbName);
-    const collection = db.collection<LogEntry>(this.collectionName);
-    
-    const result = await collection.insertOne({
+  async saveLog(content: string, analysis?: LogAnalysis): Promise<string> {
+    const result = await this.collection.insertOne({
       content,
       timestamp: new Date(),
+      analysis
     });
+    return result.insertedId.toString();
+  }
 
-    return result.insertedId;
+  async updateLogAnalysis(id: string, analysis: LogAnalysis): Promise<boolean> {
+    const result = await this.collection.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: { analysis } }
+    );
+    if (result.modifiedCount === 0) {
+      throw new Error(`Log with id ${id} not found`);
+    }
+
+    return result.modifiedCount === 1;
   }
 
   async getLog(id: string): Promise<LogEntry | null> {
-    const db = this.client.db(this.dbName);
-    const collection = db.collection<LogEntry>(this.collectionName);
-    
-    return collection.findOne({ _id: new ObjectId(id) });
+    return this.collection.findOne({ _id: new ObjectId(id) });
   }
 
   async getAllLogs(options: PaginationOptions = {}): Promise<LogEntry[]> {
-    const db = this.client.db(this.dbName);
-    const collection = db.collection<LogEntry>(this.collectionName);
-    
     const { limit = 50, sort = 'desc' } = options;
-    
-    return collection
+    return this.collection
       .find()
       .sort({ timestamp: sort === 'desc' ? -1 : 1 })
       .limit(limit)

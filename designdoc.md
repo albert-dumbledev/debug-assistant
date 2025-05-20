@@ -25,19 +25,21 @@ Considerations:
     * Quick assessment says Claude Sonnet 3.5 is probably a better option for this use case.
     * For this use case, I'll probably just use a free LLM to reduce personal cost but would highly consider further research and result comparison before settling on a model.
         * With this in mind, I think I'll write a wrapper around whatever is handling the LLM Input/Output so it's easy to hotswap.
-
+* Color palette:
+    * Picking 5 primary colors:
+        * Black (text)
+        * White (BG)
+        * Grey (containers / right hand nav)
+        * Badge colors (red, orange, green, dark grey)
 
 TODO:
-* Write a section for the page for showing all previously submitted logs.
-* Hook up submitted logs to Open AI for parsing.
-* Return parsed logs to user.
 * Work on stretch goals like:
     * Retry failed parsing.
     * Search for logs out of previously submitted logs.
-    * Classify log severity.
     * Containerizing backend.
     * Deploying the backend and providing a hosted API.
     * Test framework and tests. Might be pretty straight forward for now / light on testing depending on how time permits.
 
 Time log:
-Day 1 - 2hrs.
+Day 1 - 2hrs - general scaffold, e2e connectivity between UI and BE.
+Day 2 - 3hrs - hooking up to LLM, log analysis, results, log history, UX design.

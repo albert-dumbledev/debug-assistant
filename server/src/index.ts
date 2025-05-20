@@ -54,27 +54,29 @@ app.get('/api/logs', async (req, res) => {
 
 // Log ingestion endpoint
 app.post('/api/logs', async (req, res) => {
-  const { logs } = req.body;
-  
   try {
-    await client.connect();
-    
-    // Save logs to database
-    const id = await logsDao.saveLog(logs);
-    console.log('Saved log entry with ID:', id);
+    const { logs } = req.body;
+    if (!logs) {
+      return res.status(400).json({ error: 'Logs are required' });
+    }
 
-    // Analyze logs with LLM
+    // Save the log first
+    const logId = await logsDao.saveLog(logs);
+
+    // Get analysis from LLM
     const analysis = await llmService.explainLogs(logs);
-    
+
+    // Update the log with the analysis
+    await logsDao.updateLogAnalysis(logId.toString(), analysis);
+
     res.json({ 
-      status: 'ok', 
-      message: 'Logs saved and analyzed successfully', 
-      id,
+      message: 'Logs saved and analyzed successfully',
+      id: logId,
       analysis 
     });
   } catch (error) {
     console.error('Error processing logs:', error);
-    res.status(500).json({ status: 'error', message: 'Failed to process logs' });
+    res.status(500).json({ error: 'Failed to process logs' });
   }
 });
 
