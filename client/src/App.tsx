@@ -1,7 +1,7 @@
-import LogIngester from './pages/LogIngester';
+import LogIngester from './components/LogIngester';
 import LogHistory from './components/LogHistory';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LogAnalysis, LogEntry } from '@common/types/logAnalysis';
 
 const Container = styled.div`
@@ -31,6 +31,10 @@ function App() {
       console.error('Failed to fetch logs:', err);
     }
   };
+
+  useEffect(() => {
+    fetchLogs();
+  }, []);
 
   return (
     <Container>

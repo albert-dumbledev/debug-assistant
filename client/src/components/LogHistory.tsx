@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { LogEntry, LogAnalysis } from '@common/types/logAnalysis';
 import Badge from './Badge';
 import { severityColors, confidenceColors } from '@common/utils/colors';
+import { FilterSelect } from '@common/utils/styledComponents';
 
 interface LogHistoryProps {
   onLogSelect: (analysis: LogAnalysis | null) => void;
@@ -107,18 +108,49 @@ const ErrorContainer = styled.div`
   font-size: 0.875rem;
 `;
 
+const Toolbar = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  align-items: center;
+`;
+
+const SearchInput = styled.input`
+  padding: 0.5rem;
+  border: 1px solid #000500;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  flex: 1;
+  min-width: 0;
+  background-color: white;
+  color: #000500;
+
+  &:focus {
+    outline: none;
+    border-color: #89C2FA;
+    box-shadow: 0 0 0 2px rgba(137, 194, 250, 0.1);
+  }
+`;
+
 function LogHistory({ onLogSelect, logs, onLogsUpdate }: LogHistoryProps) {
   const [selectedLog, setSelectedLog] = useState<LogEntry | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [severityFilter, setSeverityFilter] = useState<LogAnalysis['severity'] | 'all'>('all');
+  const [confidenceFilter, setConfidenceFilter] = useState<LogAnalysis['confidence'] | 'all'>('all');
 
-  useEffect(() => {
-    onLogsUpdate().catch(err => {
-      setError(err instanceof Error ? err.message : 'Failed to fetch logs');
-    }).finally(() => {
-      setLoading(false);
+  const filteredLogs = useMemo(() => {
+    return logs.filter(log => {
+      const matchesSearch = log.content.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesSeverity = severityFilter === 'all' || log.analysis?.severity === severityFilter;
+      const matchesConfidence = confidenceFilter === 'all' || log.analysis?.confidence === confidenceFilter;
+      return matchesSearch && matchesSeverity && matchesConfidence;
     });
-  }, [onLogsUpdate]);
+  }, [logs, searchQuery, severityFilter, confidenceFilter]);
 
   const handleLogSelect = (log: LogEntry) => {
     setSelectedLog(log);
@@ -144,8 +176,35 @@ function LogHistory({ onLogSelect, logs, onLogsUpdate }: LogHistoryProps) {
   return (
     <Container>
       <Title>Log History</Title>
+      <Toolbar>
+        <SearchInput
+          type="text"
+          placeholder="Search logs..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <FilterSelect
+          value={severityFilter}
+          onChange={(e) => setSeverityFilter(e.target.value as LogAnalysis['severity'] | 'all')}
+        >
+          <option value="all">All Severities</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </FilterSelect>
+        <FilterSelect
+          value={confidenceFilter}
+          onChange={(e) => setConfidenceFilter(e.target.value as LogAnalysis['confidence'] | 'all')}
+        >
+          <option value="all">All Confidence Levels</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+          <option value="unknown">Unknown</option>
+        </FilterSelect>
+      </Toolbar>
       <LogList>
-        {logs.map((log) => (
+        {filteredLogs.map((log) => (
           <LogItem
             key={log._id?.toString()}
             isSelected={selectedLog?._id?.toString() === log._id?.toString()}

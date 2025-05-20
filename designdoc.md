@@ -26,11 +26,22 @@ Considerations:
     * For this use case, I'll probably just use a free LLM to reduce personal cost but would highly consider further research and result comparison before settling on a model.
         * With this in mind, I think I'll write a wrapper around whatever is handling the LLM Input/Output so it's easy to hotswap.
 * Color palette:
-    * Picking 5 primary colors:
+    * Picking primary colors:
         * Black (text)
         * White (BG)
         * Grey (containers / right hand nav)
         * Badge colors (red, orange, green, dark grey)
+* Security:
+    * User input is inherently dangerous - we should santize input so that they cannot inject scripts, break the DB etc.
+* Future considerations:
+    * UI performance / page load:
+        * If there is enough entries, we could consider pagination (limiting number of initial entries and allowing people to load more).
+        * We can also add logs directly to the log history as they're submitted instead of refetching to reduce calls to the backend server.
+    * Features:
+        * We may want to introduce the ability to delete individual entries.
+        * A way to continue a debugging conversation - GenAI remembers the context of a previous log entry / submission and uses that to help diagnose the next issue as well.
+            * Would need a UI overhaul - either some way to create a new log thread, defaulting the log analysis to continue the existing thread.
+            * Log History cards could show card stacks instead, when clicked it could expand as a thread of related logs.
 
 TODO:
 * Work on stretch goals like:
