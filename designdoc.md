@@ -17,6 +17,14 @@ Considerations:
     * Project doesn't seem complex enough to warrant a more intentional decision on framework and language.
 * Database might be the most interesting decision given we'd have to store a large amount of unstructured data. I suspect something like MongoDB would be a pretty good choice given it's flexibility and that my backend server is in TS, so JSON becomes easy to use too.
     * Alternatively, I could consider using something like an S3 bucket and store the entire log file instead.
+* Choice of LLM - key considerations:
+    * Accuracy - For coding / debugging, Claude general kept up with or outperformed OpenAI o1 with less resources.
+    * Context window - Claude can handle 150% more tokens -- probably more suitable for larger log files.
+    * Latency - OpenAI o1 tends to take a lot longer, used for deeper thought and reasoning.
+    * Cost - Claude Sonnet is ~4x cheaper than OpenAI o1. Better for everyday tasks.
+    * Quick assessment says Claude Sonnet 3.5 is probably a better option for this use case.
+    * For this use case, I'll probably just use a free LLM to reduce personal cost but would highly consider further research and result comparison before settling on a model.
+        * With this in mind, I think I'll write a wrapper around whatever is handling the LLM Input/Output so it's easy to hotswap.
 
 
 TODO:

@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 import { LogsDao } from './dao/logsDao';
+import { LLMService } from './llm/llmService';
 
 // Load environment variables
 dotenv.config();
@@ -11,14 +12,20 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 const mongoUri = process.env.ATLAS_CONNECTION_STRING;
+const geminiApiKey = process.env.GEMINI_API_KEY;
 
 if (!mongoUri) {
   throw new Error('ATLAS_CONNECTION_STRING is not defined in environment variables');
 }
 
+if (!geminiApiKey) {
+  throw new Error('GEMINI_API_KEY is not defined in environment variables');
+}
+
 // MongoDB client
 const client = new MongoClient(mongoUri);
 const logsDao = new LogsDao(client);
+const llmService = new LLMService(geminiApiKey);
 
 // Middleware
 app.use(helmet());
@@ -51,12 +58,23 @@ app.post('/api/logs', async (req, res) => {
   
   try {
     await client.connect();
+    
+    // Save logs to database
     const id = await logsDao.saveLog(logs);
     console.log('Saved log entry with ID:', id);
-    res.json({ status: 'ok', message: 'Logs saved successfully', id });
+
+    // Analyze logs with LLM
+    const analysis = await llmService.explainLogs(logs);
+    
+    res.json({ 
+      status: 'ok', 
+      message: 'Logs saved and analyzed successfully', 
+      id,
+      analysis 
+    });
   } catch (error) {
-    console.error('Error saving logs:', error);
-    res.status(500).json({ status: 'error', message: 'Failed to save logs' });
+    console.error('Error processing logs:', error);
+    res.status(500).json({ status: 'error', message: 'Failed to process logs' });
   }
 });
 
