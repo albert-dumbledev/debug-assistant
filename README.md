@@ -30,6 +30,9 @@ Web app that helps debuggers untangle confusing error messages and stack traces.
 
 2. Create a `.env` file in the server directory:
    ```
+   cd server
+   ```
+   ```
    PORT=3001
    ATLAS_CONNECTION_STRING=mongodb+srv://<username>:<password>@debugassistantcluster.snbi2xe.mongodb.net/?retryWrites=true&w=majority&appName=DebugAssistantCluster
    GEMINI_API_KEY=<your API key>
