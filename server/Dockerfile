@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 3001
 
 # Command to run the application
-RUN npm start
+CMD ["npm", "start"]
