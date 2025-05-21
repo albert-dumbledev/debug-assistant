@@ -14,6 +14,10 @@ const port = process.env.PORT || 3001;
 const mongoUri = process.env.ATLAS_CONNECTION_STRING;
 const geminiApiKey = process.env.GEMINI_API_KEY;
 
+console.log(process.env.PORT)
+console.log(process.env.ATLAS_CONNECTION_STRING)
+console.log(process.env.GEMINI_API_KEY)
+
 if (!mongoUri) {
   throw new Error('ATLAS_CONNECTION_STRING is not defined in environment variables');
 }
