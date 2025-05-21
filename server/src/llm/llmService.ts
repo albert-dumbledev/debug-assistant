@@ -76,11 +76,9 @@ Important: Respond with ONLY the JSON object, no additional text or markdown for
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      console.log('Raw LLM response:', text);
       
       // Sanitize the response
       const sanitizedJson = this.sanitizeJsonResponse(text);
-      console.log('Sanitized JSON:', sanitizedJson);
       
       // Parse the JSON response
       const analysis = JSON.parse(sanitizedJson) as LogAnalysis;

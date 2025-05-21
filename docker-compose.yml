@@ -7,11 +7,21 @@ services:
       dockerfile: server/Dockerfile
     ports:
       - "3001:3001"
-    env_file:
-      - ./server/.env
+    secrets:
+      - port
+      - atlas_connection_string
+      - gemini_api_key
     volumes:
       - ./server:/usr/src/app
       - ./common:/usr/src/common
       - /usr/src/app/node_modules
     environment:
-      - NODE_ENV=production 
+      - NODE_ENV=production
+
+secrets:
+  port:
+    file: ./server/secrets/port.txt
+  atlas_connection_string:
+    file: ./server/secrets/atlas_connection_string.txt
+  gemini_api_key:
+    file: ./server/secrets/gemini_api_key.txt 

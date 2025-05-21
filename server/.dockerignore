@@ -7,4 +7,6 @@ dist
 *.md
 .DS_Store
 coverage
-.vscode 
+.vscode
+secrets
+*.txt 
