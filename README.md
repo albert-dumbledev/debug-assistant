@@ -21,7 +21,21 @@ Web app that helps debuggers untangle confusing error messages and stack traces.
 - Node.js (v20 or higher)
 - npm (v9 or higher)
 
-## Setup
+## Running for testing purposes
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. To build both frontend and backend:
+   ```bash
+   npm run build
+   ```
+3. To run in pseudo production (recommended for ease of previewing / minimum setup):
+   ```bash
+   cd client && npm start
+   ```
+
+## Setup for local dev
 
 1. Install dependencies:
    ```bash
@@ -60,7 +74,7 @@ To build both frontend and backend:
 npm run build
 ```
 
-To run in pseudo production:
+To run in pseudo production (recommended for ease of previewing / minimum setup):
 
 ```bash
 cd client && npm start
