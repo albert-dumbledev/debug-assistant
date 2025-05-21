@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 3001
 
 # Command to run the application
-CMD ["npm", "start"]
+CMD ["sh", "-c", "PORT=$(cat /run/secrets/port) ATLAS_CONNECTION_STRING=$(cat /run/secrets/atlas_connection_string) GEMINI_API_KEY=$(cat /run/secrets/gemini_api_key) npm start"]

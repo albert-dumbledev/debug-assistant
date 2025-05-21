@@ -4,11 +4,10 @@ import LogAnalysisDisplay from './LogAnalysis';
 import { LogAnalysis } from '@common/types/logAnalysis';
 import { Button } from '@common/utils/styledComponents';
 
-interface LogIngesterProps {
-  analysis: LogAnalysis | null;
-  onLogSelect: (analysis: LogAnalysis | null) => void;
-  onLogSubmit: () => Promise<void>;
-}
+// Determine API URL based on environment
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://debug-assistant.onrender.com'
+  : '';
 
 const Container = styled.div`
   display: flex;
@@ -111,7 +110,11 @@ const LoaderSection = styled.div`
   width: 100%;
 `;
 
-
+interface LogIngesterProps {
+  analysis: LogAnalysis | null;
+  onLogSelect: (analysis: LogAnalysis | null) => void;
+  onLogSubmit: () => Promise<void>;
+}
 
 function LogIngester({ analysis, onLogSelect, onLogSubmit }: LogIngesterProps) {
   const [logs, setLogs] = useState('');
@@ -130,8 +133,7 @@ function LogIngester({ analysis, onLogSelect, onLogSubmit }: LogIngesterProps) {
     setStatus('loading');
 
     try {
-
-      const response = await fetch('/api/logs', {
+      const response = await fetch(`${API_BASE_URL}/api/logs`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

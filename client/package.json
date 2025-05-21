@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "start": "npm run build && npm run preview"
   },
   "dependencies": {
     "@types/styled-components": "^5.1.34",

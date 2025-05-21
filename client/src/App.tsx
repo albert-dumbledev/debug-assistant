@@ -14,13 +14,18 @@ const Container = styled.div`
   font-color: #000500;
 `;
 
+// Determine API URL based on environment
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://debug-assistant.onrender.com'
+  : '';
+
 function App() {
   const [analysis, setAnalysis] = useState<LogAnalysis | null>(null);
   const [logs, setLogs] = useState<LogEntry[]>([]);
 
   const fetchLogs = async () => {
     try {
-      const response = await fetch('/api/logs');
+      const response = await fetch(`${API_BASE_URL}/api/logs`);
       if (!response.ok) {
         throw new Error('Failed to fetch logs');
       }
