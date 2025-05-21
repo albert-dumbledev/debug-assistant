@@ -24,6 +24,7 @@ export const Button = styled.button<{ disabled?: boolean }>`
 
 export const FilterSelect = styled.select`
   padding: 0.5rem 1rem;
+  margin: 0.2rem;
   background-color: #F2F2F2;
   color: #000500;
   border-radius: 0.5rem;
@@ -31,7 +32,7 @@ export const FilterSelect = styled.select`
   cursor: pointer;
   transition: all 0.2s;
   font-weight: 500;
-  width: 100px;
+  width: 150px;
 
   &:hover {
     background-color: #1485F5;

@@ -72,7 +72,7 @@ describe('LogHistory', () => {
       />
     );
 
-    const severitySelect = screen.getByDisplayValue('All Severities');
+    const severitySelect = screen.getByDisplayValue('All Severity');
     fireEvent.change(severitySelect, { target: { value: 'high' } });
 
     expect(screen.getByText('Test log 1')).toBeInTheDocument();

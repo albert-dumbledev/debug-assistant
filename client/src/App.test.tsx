@@ -22,6 +22,7 @@ vi.mock('./components/LogIngester', () => ({
         Select Log
       </button>
       <button onClick={onLogSubmit}>Submit Log</button>
+      <div>{analysis?.problem}</div>
     </div>
   ))
 }));

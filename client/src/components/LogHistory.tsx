@@ -99,6 +99,12 @@ const Toolbar = styled.div`
   background-color: white;
   border-radius: 0.5rem;
   align-items: center;
+  flex-wrap: wrap;
+`;
+
+const ToolbarRow = styled.div`
+  display: flex;
+  min-width: 100%;
 `;
 
 const SearchInput = styled.input`
@@ -116,6 +122,10 @@ const SearchInput = styled.input`
     border-color: #89C2FA;
     box-shadow: 0 0 0 2px rgba(137, 194, 250, 0.1);
   }
+`;
+
+const Icon = styled.span`
+  font-size: 3rem;
 `;
 
 function LogHistory({ onLogSelect, logs }: LogHistoryProps) {
@@ -140,33 +150,37 @@ function LogHistory({ onLogSelect, logs }: LogHistoryProps) {
 
   return (
     <Container>
-      <Title>Log History</Title>
+      <Title>Log History <Icon> </Icon></Title>
       <Toolbar>
-        <SearchInput
-          type="text"
-          placeholder="Search logs..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <FilterSelect
-          value={severityFilter}
-          onChange={(e) => setSeverityFilter(e.target.value as LogAnalysis['severity'] | 'all')}
-        >
-          <option value="all">All Severities</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-        </FilterSelect>
-        <FilterSelect
-          value={confidenceFilter}
-          onChange={(e) => setConfidenceFilter(e.target.value as LogAnalysis['confidence'] | 'all')}
-        >
-          <option value="all">All Confidence Levels</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
-          <option value="unknown">Unknown</option>
-        </FilterSelect>
+        <ToolbarRow>
+            <SearchInput
+            type="text"
+            placeholder="Search logs..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            />
+        </ToolbarRow>
+        <ToolbarRow>
+            <FilterSelect
+            value={severityFilter}
+            onChange={(e) => setSeverityFilter(e.target.value as LogAnalysis['severity'] | 'all')}
+            >
+            <option value="all">All Severity</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+            </FilterSelect>
+            <FilterSelect
+            value={confidenceFilter}
+            onChange={(e) => setConfidenceFilter(e.target.value as LogAnalysis['confidence'] | 'all')}
+            >
+            <option value="all">All Confidence</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+            <option value="unknown">Unknown</option>
+            </FilterSelect>
+        </ToolbarRow>
       </Toolbar>
       <LogList>
         {filteredLogs.map((log) => (

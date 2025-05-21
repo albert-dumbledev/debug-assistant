@@ -1,5 +1,5 @@
 import { MongoClient, Collection, ObjectId } from 'mongodb';
-import { LogEntry, LogAnalysis, PaginationOptions } from '@common/types/logAnalysis';
+import { LogEntry, LogAnalysis, PaginationOptions } from '../types/logAnalysis';
 
 export class LogsDao {
   private collection: Collection<LogEntry>;
