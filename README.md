@@ -1,4 +1,4 @@
-# Full Stack Web Application
+# Bug Busterroo 🦘
 
 Web app that helps debuggers untangle confusing error messages and stack traces. Built on Express (Backend) and React/Typescript (Frontend).
 
@@ -6,10 +6,10 @@ Web app that helps debuggers untangle confusing error messages and stack traces.
 
 ```
 .
-├── client/             # React frontend
+├── client/            # React frontend
 │   ├── src/           # Source files
-│   ├── public/        # Static files
 │   └── package.json   # Frontend dependencies
+├── common/            # Shared types / utils.  
 ├── server/            # Express backend
 │   ├── src/          # Source files
 │   └── package.json  # Backend dependencies
@@ -18,8 +18,8 @@ Web app that helps debuggers untangle confusing error messages and stack traces.
 
 ## Prerequisites
 
-- Node.js (v16 or higher)
-- npm (v7 or higher)
+- Node.js (v20 or higher)
+- npm (v9 or higher)
 
 ## Setup
 
@@ -34,8 +34,8 @@ Web app that helps debuggers untangle confusing error messages and stack traces.
    ATLAS_CONNECTION_STRING=mongodb+srv://<username>:<password>@debugassistantcluster.snbi2xe.mongodb.net/?retryWrites=true&w=majority&appName=DebugAssistantCluster
    GEMINI_API_KEY=<your API key>
    ```
-   For MongoDB username / password, reach out to Albert. Alternatively, you can create your own Atlas Cluster and set it up https://www.mongodb.com/cloud/atlas/register.
-   For Gemini, sign up here: https://aistudio.google.com/ and go to https://aistudio.google.com/apikey 
+   - For MongoDB username / password, reach out to Albert. Alternatively, you can create your own Atlas Cluster and set it up https://www.mongodb.com/cloud/atlas/register.
+   - For Gemini, sign up here: https://aistudio.google.com/ and go to https://aistudio.google.com/apikey 
 
 ## Development
 
