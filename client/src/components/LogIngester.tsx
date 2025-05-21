@@ -7,7 +7,7 @@ import { Button } from '@common/utils/styledComponents';
 // Determine API URL based on environment
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://debug-assistant.onrender.com'
-  : '';
+  : 'http://localhost:3001';
 
 const Container = styled.div`
   display: flex;
