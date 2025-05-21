@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/usr/src/app
+      - ./common:/usr/src/common
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=production 
