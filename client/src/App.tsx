@@ -14,10 +14,10 @@ const Container = styled.div`
   font-color: #000500;
 `;
 
-// Determine API URL based on environment
+// Determine API URL based on environment (This could be a config file)
 const API_BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://debug-assistant.onrender.com'
-  : '';
+  : 'http://localhost:3001';
 
 function App() {
   const [analysis, setAnalysis] = useState<LogAnalysis | null>(null);
