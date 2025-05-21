@@ -1,13 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 import { LogsDao } from './dao/logsDao';
 import { LLMService } from './llm/llmService';
 
 // Load environment variables
-dotenv.config();
+// dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
