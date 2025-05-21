@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { LogEntry, LogAnalysis } from '@common/types/logAnalysis';
 import Badge from './Badge';
@@ -12,7 +12,7 @@ interface LogHistoryProps {
 }
 
 const Container = styled.div`
-  height: 97vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -37,13 +37,13 @@ const LogList = styled.div`
   gap: 0.5rem;
   overflow-y: auto;
   flex: 1;
-  padding-right: 0.5rem;
+  padding: 0.2rem;
 `;
 
-const LogItem = styled.div<{ isSelected: boolean }>`
-  padding: 0.75rem;
+const LogItem = styled.div<{ selected: boolean }>`
+  padding: 0.65rem;
   border-radius: 0.5rem;
-  background-color: ${props => props.isSelected ? '#89C2FA' : 'white'};
+  background-color: ${props => props.selected ? '#89C2FA' : 'white'};
   cursor: pointer;
   transition: all 0.2s;
   box-sizing: border-box;
@@ -54,9 +54,7 @@ const LogItem = styled.div<{ isSelected: boolean }>`
   }
 
   &:focus {
-    outline: none;
-    border-color: #EF767A;
-    box-shadow: 0 0 0 2px rgba(239, 118, 122, 0.1);
+    border-color: #1485F5;
   }
 `;
 
@@ -93,21 +91,6 @@ const MetricsContainer = styled.div`
   flex-shrink: 0;
 `;
 
-const LoadingContainer = styled.div`
-  padding: 2rem;
-  text-align: center;
-  color: #000500;
-  font-size: 0.875rem;
-`;
-
-const ErrorContainer = styled.div`
-  padding: 1rem;
-  background-color: #EF767A;
-  color: #000500;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-`;
-
 const Toolbar = styled.div`
   display: flex;
   gap: 1rem;
@@ -135,10 +118,8 @@ const SearchInput = styled.input`
   }
 `;
 
-function LogHistory({ onLogSelect, logs, onLogsUpdate }: LogHistoryProps) {
+function LogHistory({ onLogSelect, logs }: LogHistoryProps) {
   const [selectedLog, setSelectedLog] = useState<LogEntry | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [severityFilter, setSeverityFilter] = useState<LogAnalysis['severity'] | 'all'>('all');
   const [confidenceFilter, setConfidenceFilter] = useState<LogAnalysis['confidence'] | 'all'>('all');
@@ -156,22 +137,6 @@ function LogHistory({ onLogSelect, logs, onLogsUpdate }: LogHistoryProps) {
     setSelectedLog(log);
     onLogSelect(log.analysis || null);
   };
-
-  if (loading) {
-    return (
-      <Container>
-        <LoadingContainer>Loading logs...</LoadingContainer>
-      </Container>
-    );
-  }
-
-  if (error) {
-    return (
-      <Container>
-        <ErrorContainer>Error: {error}</ErrorContainer>
-      </Container>
-    );
-  }
 
   return (
     <Container>
@@ -207,8 +172,15 @@ function LogHistory({ onLogSelect, logs, onLogsUpdate }: LogHistoryProps) {
         {filteredLogs.map((log) => (
           <LogItem
             key={log._id?.toString()}
-            isSelected={selectedLog?._id?.toString() === log._id?.toString()}
+            selected={selectedLog?._id?.toString() === log._id?.toString()}
             onClick={() => handleLogSelect(log)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                handleLogSelect(log);
+                e.preventDefault();
+              }
+            }}
+            tabIndex={0}
           >
             <LogHeader>
               <Timestamp>

@@ -7,9 +7,8 @@ import { LogAnalysis, LogEntry } from '@common/types/logAnalysis';
 const Container = styled.div`
   display: grid;
   grid-template-columns: 3fr 1fr;
-  height: 100vh;
-  width: 100vw;
-  font-family: 'Helvetica Neue', sans-serif;
+  height: 99vh;
+  width: 99vw;
   overflow: hidden;
   background-color: #white;
   font-color: #000500;

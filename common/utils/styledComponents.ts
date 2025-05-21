@@ -17,7 +17,7 @@ export const Button = styled.button<{ disabled?: boolean }>`
   }
 
   &:focus {
-    outline: none;
+    border-color: #1485F5;
     box-shadow: 0 0 0 2px rgba(239, 118, 122, 0.1);
   }
 `;
@@ -39,7 +39,7 @@ export const FilterSelect = styled.select`
   }
 
   &:focus {
-    outline: none;
+    border-color: #1485F5;
     box-shadow: 0 0 0 2px rgba(239, 118, 122, 0.1);
   }
 `;
